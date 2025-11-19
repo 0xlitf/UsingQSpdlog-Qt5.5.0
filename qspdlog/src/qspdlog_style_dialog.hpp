@@ -1,0 +1,30 @@
+#pragma once
+
+#include <QDialog>
+#include "qspdlog/optional.hpp"
+
+class QSpdLogModel;
+
+class QSpdLogStyleDialog : public QDialog
+{
+    Q_OBJECT
+
+public:
+    struct Style {
+        std::string loggerName;
+        nonstd::optional<QColor> backgroundColor;
+        nonstd::optional<QColor> textColor;
+        bool fontBold;
+    };
+
+public:
+    explicit QSpdLogStyleDialog(QWidget* parent = nullptr);
+    ~QSpdLogStyleDialog() override;
+
+    Style result() const;
+    void setModel(const QSpdLogModel* model);
+
+private:
+    Style _result;
+    const QSpdLogModel* _model;
+};

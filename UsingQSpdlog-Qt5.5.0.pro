@@ -20,9 +20,30 @@ INCLUDEPATH += $$PWD/spdlog-1.2.1/include
 RESOURCES += \
 
 HEADERS += \
+    controls/checkbox.h \
+    controls/controls.h \
+    controls/layoutbuilder.h \
+    controls/lineedit.h \
+    controls/memorymonitorwidget.h \
+    controls/normalbutton.h \
+    controls/pagetabbutton.h \
+    controls/smartaspectratiolabel.h \
+    controls/widgetbase.h \
+    logger.h \
+    logwidget.h \
     mainwindow.h
 
 SOURCES += \
+    controls/checkbox.cpp \
+    controls/layoutbuilder.cpp \
+    controls/lineedit.cpp \
+    controls/memorymonitorwidget.cpp \
+    controls/normalbutton.cpp \
+    controls/pagetabbutton.cpp \
+    controls/smartaspectratiolabel.cpp \
+    controls/widgetbase.cpp \
+    logger.cpp \
+    logwidget.cpp \
     main.cpp \
     mainwindow.cpp
 

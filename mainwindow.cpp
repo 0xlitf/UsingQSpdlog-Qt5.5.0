@@ -8,22 +8,7 @@
 #include <QToolButton>
 #include <memory>
 #include <thread>
-
-#include "qspdlog/qabstract_spdlog_toolbar.hpp"
-#include "qspdlog/qspdlog.hpp"
-#include "qspdlog/qspdlog_toolbar.hpp"
-#include "spdlog/spdlog.h"
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/stdout_sinks.h>
-
-std::shared_ptr<spdlog::logger> createLogger(std::string name) {
-    auto console_sink = std::make_shared<spdlog::sinks::stdout_sink_mt>();
-    auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs.txt");
-
-    auto logger = std::make_shared<spdlog::logger>(name, file_sink);
-    logger->set_level(spdlog::level::trace);
-    return logger;
-}
+#include "logger.h"
 
 void configureColorScheme() {
 #ifdef Q_OS_WIN

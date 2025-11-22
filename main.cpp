@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
     auto fontName = QString("微软雅黑");
     if (fonts.contains(fontName)) {
         QFont font(fontName, 10);
-        qApp->setFont(font);
+        app.setFont(font);
     } else {
         // 回退到系统默认字体
         qDebug() << "微软雅黑字体未找到，使用系统默认字体";
@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
     // main.show();
 
     LogWidget main;
-    main.setMinimumSize(960, 720);
+    main.setMinimumSize(1280, 900);
     main.show();
 
     int result = app.exec();

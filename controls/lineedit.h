@@ -43,6 +43,7 @@ private slots:
 
 private:
     QAction* m_settingsAction;
+    int m_spacing = 3;
     QColor m_borderColor = Qt::gray;
     int m_borderWidth = 1;
     int m_cornerRadius = 5;

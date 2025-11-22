@@ -12,8 +12,7 @@
 
 void configureColorScheme() {
 #ifdef Q_OS_WIN
-    QSettings settings("HKEY_CURRENT_"
-                       "USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+    QSettings settings("1.ini",
                        QSettings::NativeFormat);
     if (settings.value("AppsUseLightTheme") == 0) {
         qApp->setStyle(QStyleFactory::create("Fusion"));

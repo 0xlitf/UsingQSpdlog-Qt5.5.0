@@ -34,7 +34,20 @@ void LineEdit::setCornerRadius(int radius) {
 }
 
 void LineEdit::setupActions() {
-    m_settingsAction = new QAction(QIcon(":/image/delete.svg"), "", this);
+    auto createClearIcon = []() {
+        QPixmap pixmap(16, 16);
+        pixmap.fill(Qt::transparent);
+
+        QPainter painter(&pixmap);
+        painter.setRenderHint(QPainter::Antialiasing);
+
+        painter.setPen(QPen(Qt::gray, 2));
+        painter.drawLine(2, 2, 14, 14);
+        painter.drawLine(14, 2, 2, 14);
+
+        return QIcon(pixmap);
+    };
+    m_settingsAction = new QAction(createClearIcon(), "", this);
     connect(m_settingsAction, &QAction::triggered, this, [this]() { this->setText(""); });
 
     updateActionVisibility();
@@ -44,7 +57,8 @@ void LineEdit::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    QRect bgRect = rect().adjusted(m_borderWidth, m_borderWidth, -m_borderWidth, -m_borderWidth);
+    QRect innerRect = this->rect().adjusted(m_spacing, m_spacing, -m_spacing, -m_spacing);
+    QRect bgRect = innerRect.adjusted(m_borderWidth, m_borderWidth, -m_borderWidth, -m_borderWidth);
     painter.setBrush(palette().base());
     painter.setPen(Qt::NoPen);
     painter.drawRoundedRect(bgRect, m_cornerRadius, m_cornerRadius);
@@ -56,31 +70,34 @@ void LineEdit::paintEvent(QPaintEvent* event) {
     } else {
         painter.setBrush(Qt::NoBrush);
     }
-    painter.drawRoundedRect(rect().adjusted(0, 0, 0, 0), m_cornerRadius, m_cornerRadius);
+    painter.drawRoundedRect(innerRect.adjusted(0, 0, 0, 0), m_cornerRadius, m_cornerRadius);
 
     drawFocusIndicator(painter);
 
-    QRect textRect = rect().adjusted(8, 2, -25, -2);
+    this->setTextMargins(10, 2, 25, 2);  // 左边距10
+    QRect textRect = rect().adjusted(2, 2, -25, -2);
     painter.setClipRect(textRect);
 
     QLineEdit::paintEvent(event);
 }
 
 void LineEdit::drawFocusIndicator(QPainter& painter) {
+    QRect innerRect = this->rect().adjusted(m_spacing, m_spacing, -m_spacing, 0);
     painter.save();
 
     QPainterPath maskPath;
-    maskPath.addRoundedRect(rect(), m_cornerRadius, m_cornerRadius);
+    QRect clipRect = this->rect().adjusted(m_spacing, m_spacing, -m_spacing, -m_spacing);
+    maskPath.addRoundedRect(clipRect, m_cornerRadius, m_cornerRadius);
 
     painter.setClipPath(maskPath);
 
     QColor lineColor = this->hasFocus() ? QColor("#005a9e") : QColor("#999999");
     int lineHeight = this->hasFocus() ? 3 : 2;
 
-    int lineY = rect().height() - lineHeight;
+    int lineY = innerRect.height() - lineHeight;
     painter.setPen(Qt::NoPen);
     painter.setBrush(lineColor);
-    painter.drawRect(0, lineY, rect().width(), lineHeight);
+    painter.drawRect(m_spacing, lineY, innerRect.width(), lineHeight);
 
     painter.restore();
 }

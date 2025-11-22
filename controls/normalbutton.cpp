@@ -63,9 +63,9 @@ void NormalButton::drawContentArea(QPainter &painter, const QRect &rect, const Q
 void NormalButton::drawText(QPainter &painter, const QRect &rect) {
     QRect textRect = rect.adjusted(m_spacing * 2, m_spacing, -m_spacing * 2,  -m_spacing);
 
-    QFont font = painter.font();
-    font.setPixelSize(15);
-    painter.setFont(font);
+    // QFont font = painter.font();
+    // font.setPixelSize(15);
+    // painter.setFont(font);
 
     QPen pen;
     pen.setColor(this->getTextColor());

@@ -55,7 +55,7 @@ void CheckBox::drawText(QPainter &painter) {
     int textLeft = boxSize + 8;
 
     painter.setPen(palette().windowText().color());
-    painter.setFont(font());
+    // painter.setFont(font());
 
     QRect textRect(textLeft, 0, width() - textLeft, height());
     painter.drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, text());

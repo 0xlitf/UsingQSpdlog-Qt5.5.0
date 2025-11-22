@@ -19,44 +19,47 @@ LogWidget::LogWidget(QWidget *parent) : QMainWindow(parent) {
 void LogWidget::createComponent() {
     using namespace Layouting;
 
+    auto addLogButton = new NormalButton(this);
+    addLogButton->setText("addLog");
+    addLogButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    // addLogButton->setFixedSize(50, 30);
+    connect(addLogButton, &QPushButton::clicked, m_generateAction, &QAction::triggered);
+
+    auto addThreadLogButton = new NormalButton(this);
+    addThreadLogButton->setText("addThreadLog");
+    addThreadLogButton->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    connect(addThreadLogButton,
+            &QPushButton::clicked,
+            m_generateMultipleAction,
+            &QAction::triggered);
+
+    auto clearButton = new NormalButton(this);
+    clearButton->setText("clear");
+    clearButton->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    connect(clearButton, &QPushButton::clicked, m_clearAction, &QAction::triggered);
+
+    auto lineEdit = new LineEdit(this);
+    lineEdit->setText("Test");
+    // lineEdit->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    // lineEdit->setFixedSize(100, 35);
+
+    auto Aa = new NormalButton(this);
+    Aa->setFixedSize(35, 35);
+    Aa->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    Aa->setText("Aa");
+    Aa->setCheckable(true);
+
+    auto regex = new NormalButton(this);
+    regex->setFixedSize(35, 35);
+    regex->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    regex->setText(".*");
+    regex->setCheckable(true);
     auto m_centralTop = [=]() {
         WidgetBase *w = new WidgetBase();
         w->setBackgroundColor(QColor("#dddddd"));
-        w->setFixedHeight(70);
+        w->setFixedHeight(150);
         // w->setContentsMargins(0, 0, 0, 0);
 
-        auto addLogButton = new NormalButton(w);
-        addLogButton->setText("addLog");
-        addLogButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        // addLogButton->setFixedSize(50, 30);
-        connect(addLogButton, &QPushButton::clicked, m_generateAction, &QAction::triggered);
-
-        auto addThreadLogButton = new NormalButton(w);
-        addThreadLogButton->setText("addThreadLog");
-        addThreadLogButton->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-        connect(addThreadLogButton,
-                &QPushButton::clicked,
-                m_generateMultipleAction,
-                &QAction::triggered);
-
-        auto clearButton = new NormalButton(w);
-        clearButton->setText("clear");
-        clearButton->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-        connect(clearButton, &QPushButton::clicked, m_clearAction, &QAction::triggered);
-
-        auto lineEdit = new LineEdit(w);
-        lineEdit->setText("Test");
-        lineEdit->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-
-        auto Aa = new NormalButton(w);
-        Aa->setFixedSize(35, 35);
-        Aa->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        Aa->setText("Aa");
-
-        auto regex = new NormalButton(w);
-        regex->setFixedSize(35, 35);
-        regex->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        regex->setText(".*");
         Column{Row{addLogButton, addThreadLogButton, clearButton, Stretch()},
                Row{lineEdit, Aa, regex, Stretch()}}
             .attachTo(w);

@@ -3,6 +3,7 @@
 
 #include <QAction>
 #include <QLineEdit>
+#include <QDebug>
 
 class LineEdit : public QLineEdit {
     Q_OBJECT
@@ -18,7 +19,7 @@ protected:
     void paintEvent(QPaintEvent* event) override;
 
     QSize sizeHint() const override {
-        QSize size = QLineEdit::sizeHint();
+        static QSize size = QLineEdit::sizeHint();
         return size + QSize(10, 10);
     }
 
@@ -35,7 +36,11 @@ protected:
 private slots:
     void updateActionVisibility() {
         if (this->hasFocus()) {
-            this->addAction(m_settingsAction, QLineEdit::TrailingPosition);
+            if (this->actions().contains(m_settingsAction)) {
+
+            } else {
+                this->addAction(m_settingsAction, QLineEdit::TrailingPosition);
+            }
         } else {
             this->removeAction(m_settingsAction);
         }

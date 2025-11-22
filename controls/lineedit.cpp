@@ -2,11 +2,12 @@
 #include <QPainter>
 #include <QAction>
 #include <QIcon>
+#include <QDebug>
 #include <QPainterPath>
 
 LineEdit::LineEdit(QWidget* parent)
     : QLineEdit(parent) {
-    this->setMinimumSize(50, 35);
+    this->setMinimumSize(80, 35);
 
     QPalette palette = this->palette();
     palette.setColor(QPalette::Base, Qt::transparent);
@@ -74,7 +75,10 @@ void LineEdit::paintEvent(QPaintEvent* event) {
 
     drawFocusIndicator(painter);
 
-    this->setTextMargins(10, 2, 25, 2);  // 左边距10
+    QMargins margins;
+    margins.setLeft(m_spacing * 2);
+    this->setTextMargins(margins);
+
     QRect textRect = rect().adjusted(2, 2, -25, -2);
     painter.setClipRect(textRect);
 

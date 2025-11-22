@@ -38,16 +38,16 @@ void LogWidget::createComponent() {
     clearButton->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     connect(clearButton, &QPushButton::clicked, m_clearAction, &QAction::triggered);
 
-    auto lineEdit = new LineEdit(this);
-    lineEdit->setText("Test");
-    // lineEdit->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    // lineEdit->setFixedSize(100, 35);
+    auto filter = new LineEdit(this);
+    filter->setText("Test");
+    // filter->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    // filter->setFixedSize(100, 35);
 
-    auto Aa = new NormalButton(this);
-    Aa->setFixedSize(35, 35);
-    Aa->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    Aa->setText("Aa");
-    Aa->setCheckable(true);
+    auto caseSensitive = new NormalButton(this);
+    caseSensitive->setFixedSize(35, 35);
+    caseSensitive->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    caseSensitive->setText("Aa");
+    caseSensitive->setCheckable(true);
 
     auto regex = new NormalButton(this);
     regex->setFixedSize(35, 35);
@@ -61,12 +61,22 @@ void LogWidget::createComponent() {
         // w->setContentsMargins(0, 0, 0, 0);
 
         Column{Row{addLogButton, addThreadLogButton, clearButton, Stretch()},
-               Row{lineEdit, Aa, regex, Stretch()}}
+               Row{filter, caseSensitive, regex, Stretch()}}
             .attachTo(w);
 
         return w;
     }();
     m_logView = new QSpdLog();
+
+    auto updateFilter = [ this, filter, regex, caseSensitive ]() {
+        m_logView->filterData(
+            filter->text(), regex->isChecked(), caseSensitive->isChecked()
+            );
+    };
+
+    connect(filter, &QLineEdit::textChanged, this, updateFilter);
+    connect(regex, &QPushButton::clicked, this, updateFilter);
+    connect(caseSensitive, &QPushButton::clicked, this, updateFilter);
 
     Column{m_centralTop, m_logView}.attachTo(central);
 }
@@ -77,7 +87,6 @@ void LogWidget::createAction() {
     m_generateMultipleAction = new QAction("GenerateMultiple", this);
 
     m_generateAction->connect(m_generateAction, &QAction::triggered, this, [this](bool) {
-        // generate 10 messages with random levels
         for (int i = 0; i < 10; ++i)
             m_logger->log(static_cast<spdlog::level::level_enum>(rand() % spdlog::level::off),
                           "Message {}",
@@ -86,7 +95,6 @@ void LogWidget::createAction() {
 
     m_generateMultipleAction
         ->connect(m_generateMultipleAction, &QAction::triggered, this, [this](bool) {
-            // create 10 threads and generate 10 messages with random levels
             std::vector<std::thread> threads;
             for (int i = 0; i < 10; ++i) {
                 threads.emplace_back([this, i]() {

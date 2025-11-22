@@ -187,7 +187,7 @@ public:
      */
     void setAutoScrollPolicy(AutoScrollPolicy policy);
 
-private slots:
+public slots:
     void filterData(
         const QString& text, bool isRegularExpression, bool isCaseSensitive
     );

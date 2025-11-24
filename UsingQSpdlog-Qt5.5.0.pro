@@ -7,9 +7,11 @@ DEFINES += QT_MESSAGELOGCONTEXT
 QMAKE_PROJECT_DEPTH = 0
 
 include($$PWD/qspdlog/qspdlog.pri)
+include($$PWD/compile.pri)
 
 INCLUDEPATH += $$PWD/qspdlog/include
 INCLUDEPATH += $$PWD/spdlog-1.2.1/include
+INCLUDEPATH += C:/GitHub/fmt-5.0.0/include
 
 # CONFIG(debug, debug|release) {
 #     LIBS +=

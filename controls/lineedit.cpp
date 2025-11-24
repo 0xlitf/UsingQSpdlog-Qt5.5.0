@@ -69,7 +69,7 @@ void LineEdit::paintEvent(QPaintEvent* event) {
     if (this->hasFocus()) {
         painter.setBrush(Qt::white);
     } else {
-        painter.setBrush(Qt::NoBrush);
+        painter.setBrush(QColor("#ffffff").darker(105));
     }
     painter.drawRoundedRect(innerRect.adjusted(0, 0, 0, 0), m_cornerRadius, m_cornerRadius);
 

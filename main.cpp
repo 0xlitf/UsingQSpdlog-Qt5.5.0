@@ -2,6 +2,7 @@
 #include <QApplication>
 #include <QFontDatabase>
 #include <QDebug>
+#include <QHostInfo>
 #include "spdlog/spdlog.h"
 #include "mainwindow.h"
 #include "logwidget.h"
@@ -26,9 +27,21 @@
 #include "spdlog/fmt/bundled/printf.h"
 #include "spdlog/fmt/bundled/ranges.h"
 #include "spdlog/fmt/bundled/time.h"
+#include "compile.h"
 
 int main(int argc, char **argv) {
     Q_INIT_RESOURCE(qspdlog_resources);
+
+    QString buildType;
+#ifdef QT_DEBUG
+    buildType = QString("Debug");
+#else
+    buildType = QString("Release");
+#endif
+    QString appName("App");
+    QString fullAppName;
+    fullAppName = appName + QString(" (%1 %2 %3 %4) (%5)").arg(buildType).arg(GIT_BRANCH).arg(GIT_COMMIT_HASH).arg(BUILD_DATE).arg(QHostInfo::localHostName());
+    QApplication::setApplicationName(fullAppName);
 
     auto str = fmt::format("{}", 123);
     qDebug() << "str" << str.c_str();
